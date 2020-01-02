@@ -1,0 +1,129 @@
+<html>
+   <head>
+      <title>Angular JS Services</title>
+      <script src = "https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+	  <script src = "da_control.js"></script>
+	  <script src = "da_factory.js"></script>
+   </head>
+   <style>
+	i {
+	  border: solid black;
+	  border-width: 0 3px 3px 0;
+	  display: inline-block;
+	  padding: 3px;
+	}
+
+	.down {
+	  transform: rotate(45deg);
+	  -webkit-transform: rotate(45deg);
+	}
+	
+	.up {
+	  transform: rotate(-135deg);
+	  -webkit-transform: rotate(-135deg);
+	}
+	
+	.nongol_dropdown {
+		margin-bottom: 100px;
+	}
+
+	.ga_nongol_dropdown {
+		width: 10px;
+	}
+	.kiri {
+		float:left
+	}
+	.kanan {
+		float:right;
+	}
+</style>
+   
+   <body>
+      
+      
+    <div style="background-color:blue"ng-app="myApp" ng-controller="thisapp"> 
+
+		<div style="width:100%;margin-bottom:10px;margin-left:20px;padding-top:20px"><input ng-change="Da_Text_Filter()" type="text" ng-model="SearchFurnitureTxtbx" placeholder="Search Furniture"></div>
+		<div style="width:100%;margin-left:20px" ng-class="{nongol_dropdown: (ShowFurnitureStyleDropdown == true || ShowDeliveryTimeDropdown==true), ga_nongol_dropdown: (ShowFurnitureStyleDropdown == false || ShowDeliveryTimeDropdown==false)}" >
+			<div style="width: 50%; float:left;">
+				<div>
+					<input style="width:80%" type="text" ng-model="FurnitureStyleTxtbx" placeholder="Furniture Style" readonly>
+					 <button style="width:10%;height:25px" type="button" ng-click="ShowFurnitureStyleDropdownToggle()"><i ng-show="ShowFurnitureStyleDropdown==false" class="arrow down"></i><i ng-show="ShowFurnitureStyleDropdown==true" class="arrow up"></i></button> 
+				</div>
+				<div style="background-color:white" ng-repeat="x in FurnitureStyleDropdownOptions" ng-show="ShowFurnitureStyleDropdown">
+					<div style="width:100%;background-color:white">
+					<div style="width:80%;float:left;background-color:white">
+					<label for="{{x}}">{{x}}</label>
+					</div>
+					<div style="width:20%;float:left;background-color:white">
+					<input type="checkbox" id="{{x}}" ng-model="DaFurnitureStyleDropdown" ng-change="FurnitureStyleDropdownSelection(DaFurnitureStyleDropdown,x)"/>
+					<br/>
+					</div>
+					</div>
+				</div>
+	
+			</div>
+
+			<div style="width: 50%; float:left">
+			   <!--<select ng-model="DeliveryTimeDropdown" ng-options="x for x in DeliveryTimeDropdownOptions">
+				</select>-->
+				
+				<div>
+					<input style="width:80%" type="text" ng-model="DeliveryTimeTxtbx" placeholder="Delivery Time" readonly>
+					 <button style="width:10%;height:25px" type="button" ng-click="ShowDeliveryTimeDropdownToggle()"><i ng-show="ShowDeliveryTimeDropdown==false" class="arrow down"></i><i ng-show="ShowDeliveryTimeDropdown==true" class="arrow up"></i></button> 
+				</div>
+
+				<div style="background-color:white" ng-repeat="y in DeliveryTimeDropdownOptions" ng-show="ShowDeliveryTimeDropdown">
+					<div style="width:100%;">
+					<div style="width:80%;float:left;background-color:white">
+					<label for="{{y}}">{{y}}</label>
+					</div>
+					<div style="width:20%;float:left;background-color:white">
+					<input type="checkbox" id="{{y}}" ng-model="DaDeliveryTimeDropdown" ng-change="DeliveryTimeDropdownSelection(DaDeliveryTimeDropdown,y)"/>
+					<br/>
+					</div>
+					</div>
+				</div>
+
+				
+			</div>
+		</div>
+<br/>
+<br/>
+		<div ng-repeat="da_data in TheRawData_Filtered" class="list-group-item card-2" style="width:100%; margin-top: 10px">
+            <div class="row" style="width:49%;border-style: groove;margin-bottom:10px" ng-class="{kiri:$index%2==0 , kanan:$index%2!=0 }">
+			<ul>
+				<div style="width:100%;">
+					<div style="width: 80%; float:left">
+						<b>Product Name:{{da_data.name}}</b>
+					</div>
+					<div style="width: 20%; float:left;color:orange">
+						IDR.{{da_data.price}}
+					</div>
+				</div>
+			</ul>
+			<ul>			
+				<div style="width:100%;">
+					Description:{{da_data.description| limitTo: 114}}
+				</div>
+			</ul>
+			<ul>
+				<div style="width:100%;padding-bottom:25px">
+					<div style="width:80%;color:lightblue; float:left">
+						Furniture Styles:<div ng-repeat="da_data_furniture_style in da_data.furniture_style"><div style="float:left"><div style="float:left" ng-show="$index%2!=0">,</div>{{da_data_furniture_style}}</div></div>
+					</div>
+					<div style="width:20%;color:blue; float:left">
+						<b>Delivery Days:{{da_data.delivery_time}}<b>
+					</div>
+				</div>
+			</ul>			
+			</div>
+		</div>	
+    </div> 
+      
+      
+      
+   </body>
+</html>
+
+
